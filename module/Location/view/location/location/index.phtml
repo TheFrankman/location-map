@@ -6,9 +6,7 @@ $this->headTitle($title);
 
 ?>
 <h1><?php $this->escapeHtml($title) ?></h1>
-<p>
-    <a href="<?php echo $this->url('location', ['action' => 'add']) ?>">Add new location</a>
-</p>
+<?php echo $this->partial('blocks/navigation-buttons.phtml') ?>
 
 <div id="map" style="height:500px;"></div>
 <script>

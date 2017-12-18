@@ -4,7 +4,8 @@
 $title = 'Edit location';
 $this->headTitle($title);
 ?>
-    <h1><?php $this->escapeHtml($title) ?></h1>
+<h1><?php $this->escapeHtml($title) ?></h1>
+<?php echo $this->partial('blocks/navigation-buttons.phtml') ?>
 <?php
 $title = $form->get('title');
 $title->setAttribute('class', 'form-control');

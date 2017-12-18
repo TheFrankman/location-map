@@ -2,7 +2,8 @@
 $title = 'Add new Locatiom';
 $this->headTitle($title);
 ?>
-    <h1><?php $this->escapeHtml($title) ?></h1>
+<h1><?php $this->escapeHtml($title) ?></h1>
+<?php echo $this->partial('blocks/navigation-buttons.phtml') ?>
 <?php
 // This provides a default CSS class and placeholder text for the title element:
 $title = $form->get('title');
