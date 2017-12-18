@@ -1,0 +1,68 @@
+<?php
+/** @var \Zend\View\Renderer\PhpRenderer $this */
+$title = 'My Locations';
+$this->headTitle($title);
+
+
+?>
+<h1><?php $this->escapeHtml($title) ?></h1>
+<p>
+    <a href="<?php echo $this->url('location', ['action' => 'add']) ?>">Add new location</a>
+</p>
+
+<div id="map" style="height:500px;"></div>
+<script>
+    var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: new google.maps.LatLng(43.7384176, 7.4246158)
+        });
+
+        var iconBase = '<?php echo $this->basePath() . 'img/' ?>';
+        var icons = {
+            home: {
+                icon: iconBase + 'home.png'
+            },
+            destination: {
+                icon: iconBase + 'destination.png'
+            },
+            visited: {
+                icon: iconBase + 'visited.png'
+            }
+        };
+
+        var locations = JSON.parse('<?php echo $locations; ?>');
+        var activeWindow = null;
+
+        locations.forEach(function(location) {
+
+            var locationInfowindow = new google.maps.InfoWindow({
+                content: location.title
+            });
+
+
+
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(location.lat, location.long),
+                icon: icons[location.type].icon,
+                clickable:true,
+                map: map,
+                infowindow: locationInfowindow
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                if (activeWindow) {
+                    activeWindow.close();
+                }
+                this.infowindow.open(map, this);
+                activeWindow = this.infowindow;
+            });
+        });
+    }
+</script>
+
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYPYnMfO_k_eoKa1UkmmUt2To1INor0UE&callback=initMap">
+</script>

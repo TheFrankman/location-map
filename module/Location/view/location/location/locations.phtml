@@ -1,0 +1,33 @@
+<?php
+/** @var \Zend\View\Renderer\PhpRenderer $this */
+$title = 'My Locations';
+$this->headTitle($title);
+?>
+    <h1><?php $this->escapeHtml($title) ?></h1>
+    <p>
+        <a href="<?php echo $this->url('location', ['action' => 'add']) ?>">Add new location</a>
+    </p>
+<?php if ($locations) : ?>
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Long</th>
+            <th>Lat</th>
+            <th>Type</th>
+            <th>&nbsp;</th>
+        </tr>
+
+        <?php foreach ($locations as $location) : ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($location->title) ?></td>
+                <td><?php echo $this->escapeHtml($location->long) ?></td>
+                <td><?php echo $this->escapeHtml($location->lat) ?></td>
+                <td><?php echo $this->escapeHtml($location->type) ?></td>
+                <td>
+                    <a href="<?php echo $this->url('location', ['action' => 'edit', 'id' => $location->id]) ?>">Edit</a>
+                    <a href="<?php echo $this->url('location', ['action' => 'delete', 'id' => $location->id]) ?>">Delete</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+<?php endif; ?>

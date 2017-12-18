@@ -1,0 +1,22 @@
+<?php
+// module/Location/view/location/location/delete.phtml:
+
+$title = 'Delete location';
+$url   = $this->url('location', ['action' => 'delete', 'id' => $id]);
+
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title) ?></h1>
+
+<p>
+    Are you sure that you want to delete
+    "<?php echo $this->escapeHtml($location->title) ?>"
+</p>
+
+<form action="<?php echo $url ?>" method="post">
+    <div class="form-group">
+        <input type="hidden" name="id" value="<?php echo (int) $location->id ?>" />
+        <input type="submit" class="btn btn-danger" name="del" value="Yes" />
+        <input type="submit" class="btn btn-success" name="del" value="No" />
+    </div>
+</form>
