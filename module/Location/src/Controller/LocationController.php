@@ -120,7 +120,7 @@ class LocationController extends AbstractActionController
 
         $form->setData($data);
 
-        if (! $form->isValid()) {
+        if (!$form->isValid()) {
             return $viewData;
         }
 
@@ -159,6 +159,10 @@ class LocationController extends AbstractActionController
         ];
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function addLatLong($data)
     {
         // Get the LatLong from the location title

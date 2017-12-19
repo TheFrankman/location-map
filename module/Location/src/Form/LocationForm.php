@@ -11,6 +11,10 @@ use Zend\Form\Form;
  */
 class LocationForm extends Form
 {
+    /**
+     * LocationForm constructor.
+     * @param null $name
+     */
     public function __construct($name = null)
     {
         // We will ignore the name provided to the constructor
