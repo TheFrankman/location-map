@@ -4,7 +4,7 @@
 This is an application created using the Zend Framework MVC layer and module systems.
 It allows you to add a list of locations you have lived, visited and want to visit to a google map.
 
-A demo is available at locations.frankclark.xyz
+A demo is available at locations.frankclark.xyz as setting this up will likely be time consuming.
 
 ## Local Setup
 I created this project using MAMP with apache but you either of the below configurations should work for you.
@@ -17,6 +17,8 @@ When the database is created you will need to do two things :
 
 Rename the file located at `project_root/config/autoload/local.example.php` to `local.php` within the same directory
 updating the username and password to your own.
+
+I've included the vendor directory to prevent any issues with composer.
 
 ### Apache setup
 
