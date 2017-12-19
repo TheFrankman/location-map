@@ -18,6 +18,8 @@ When the database is created you will need to :
 Rename the file located at `project_root/config/autoload/local.example.php` to `local.php` within the same directory
 updating the username and password to your own.
 
+navigate to the project root and run `ln -s ./data/upload/ ./public/img/upload`
+
 I've included the vendor directory to prevent any issues with composer.
 
 ### Apache setup
