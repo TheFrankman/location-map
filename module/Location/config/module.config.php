@@ -3,6 +3,7 @@
 namespace Location;
 
 use Zend\Router\Http\Segment;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
@@ -23,6 +24,11 @@ return [
             ],
         ],
     ],
+    'controllers' => [
+        'factories' => [
+            Controller\LocationController::class => Controller\Factory\LocationControllerFactory::class
+        ]
+    ],
     'view_manager' => [
         'template_path_stack' => [
             'location' => __DIR__ . '/../view',
@@ -30,5 +36,12 @@ return [
         'strategies' => array(
             'ViewJsonStrategy',
         ),
-    ]
+    ],
+    'service_manager' => [
+        'factories' => [
+            // Register the ImageManager service
+            Service\ImageManager::class => InvokableFactory::class,
+        ],
+    ],
+
 ];

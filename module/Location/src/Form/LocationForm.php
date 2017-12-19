@@ -71,6 +71,17 @@ class LocationForm extends Form
         ));
 
         $this->add([
+            'type'  => 'file',
+            'name' => 'file',
+            'attributes' => [
+                'id' => 'file'
+            ],
+            'options' => [
+                'label' => 'Image file',
+            ],
+        ]);
+
+        $this->add([
             'name' => 'submit',
             'type' => 'submit',
             'attributes' => [

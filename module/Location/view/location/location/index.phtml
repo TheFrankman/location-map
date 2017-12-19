@@ -38,19 +38,22 @@ $this->headTitle($title);
         var activeWindow = null;
 
         locations.forEach(function(location) {
-
-            var locationInfowindow = new google.maps.InfoWindow({
-                content: location.title
+            var infoContent = "<h3>" + location.title + "</h3>";
+            if (location.file) {
+                var imageBase = '<?php echo $this->basePath() . 'img/upload/' ?>';
+                var imageUrl = imageBase+location.file;
+                infoContent = infoContent + '<img src="' + imageUrl + '" height="250px"/>';
+            }
+            var locationInfoWindow = new google.maps.InfoWindow({
+                content: infoContent
             });
-
-
 
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(location.lat, location.long),
                 icon: icons[location.type].icon,
                 clickable:true,
                 map: map,
-                infowindow: locationInfowindow
+                infowindow: locationInfoWindow
             });
 
             google.maps.event.addListener(marker, 'click', function() {

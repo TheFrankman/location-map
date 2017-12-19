@@ -22,6 +22,7 @@ class Location
     public $long;
     public $lat;
     public $type;
+    public $file;
 
     private $inputFilter;
 
@@ -35,6 +36,7 @@ class Location
         $this->long  = !empty($data['long']) ? $data['long'] : null;
         $this->lat  = !empty($data['lat']) ? $data['lat'] : null;
         $this->type  = !empty($data['type']) ? $data['type'] : null;
+        $this->file  = !empty($data['file']) ? $data['file'] : null;
     }
 
     /**
@@ -143,6 +145,43 @@ class Location
             ],
         ]);
 
+        $inputFilter->add([
+            'type'     => 'Zend\InputFilter\FileInput',
+            'name'     => 'file',
+            'required' => true,
+            'validators' => [
+                ['name'    => 'FileUploadFile'],
+                [
+                    'name'    => 'FileMimeType',
+                    'options' => [
+                        'mimeType'  => ['image/jpeg', 'image/png']
+                    ]
+                ],
+                ['name'    => 'FileIsImage'],
+                [
+                    'name'    => 'FileImageSize',
+                    'options' => [
+                        'minWidth'  => 32,
+                        'minHeight' => 32,
+                        'maxWidth'  => 4096,
+                        'maxHeight' => 4096
+                    ]
+                ],
+            ],
+            'filters'  => [
+                [
+                    'name' => 'FileRenameUpload',
+                    'options' => [
+                        'target'=>'./data/upload',
+                        'useUploadName'=>true,
+                        'useUploadExtension'=>true,
+                        'overwrite'=>true,
+                        'randomize'=>false
+                    ]
+                ]
+            ],
+        ]);
+
         $this->inputFilter = $inputFilter;
         return $this->inputFilter;
     }
@@ -158,6 +197,7 @@ class Location
             'long' => $this->long,
             'lat' => $this->lat,
             'type' => $this->type,
+            'file' => $this->file
         ];
     }
 }

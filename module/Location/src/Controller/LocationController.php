@@ -17,21 +17,28 @@ class LocationController extends AbstractActionController
     /** @var LocationTable  */
     private $table;
 
+    private $imageManager;
+
     /**
      * LocationController constructor.
      * @param LocationTable $table
+     * @param $imageManager \Location\Service\ImageManager
      */
-    public function __construct(LocationTable $table)
-    {
+    public function __construct(
+        LocationTable $table,
+        $imageManager
+    ) {
         $this->table = $table;
+        $this->imageManager = $imageManager;
     }
+
 
     /**
      * @return ViewModel
      */
     public function indexAction()
     {
-        $data = $this->table->fetchAllToArray();
+        $data = $this->table->fetchAllToArray($this->imageManager);
         return new ViewModel([
             'locations' => json_encode($data),
         ]);
@@ -66,8 +73,11 @@ class LocationController extends AbstractActionController
         $form->setInputFilter($location->getInputFilter());
 
         /** @var \Zend\Stdlib\Parameters $data */
-        $data = $request->getPost();
-        $data = $data->toArray();
+
+        $data = array_merge_recursive(
+            $request->getPost()->toArray(),
+            $request->getFiles()->toArray()
+        );
 
         $data = $this->addLatLong($data);
 
@@ -115,6 +125,7 @@ class LocationController extends AbstractActionController
         $form->setInputFilter($location->getInputFilter());
 
         $data = $request->getPost()->toArray();
+        $data['file'] = $location->file;
 
         $data = $this->addLatLong($data);
 
@@ -146,6 +157,11 @@ class LocationController extends AbstractActionController
             $del = $request->getPost('del', 'No');
 
             if ($del == 'Yes') {
+                $location = $this->table->getLocation($id);
+                $file = json_decode($location->file);
+                if ($file && $name = $file->name) {
+                    $this->imageManager->deleteImage($this->imageManager->getImagePathByName($name));
+                }
                 $this->table->deleteLocation($id);
             }
 

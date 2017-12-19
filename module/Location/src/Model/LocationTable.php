@@ -15,12 +15,14 @@ class LocationTable
     /** @var TableGatewayInterface  */
     private $tableGateway;
 
+
     /**
      * LocationTable constructor.
      * @param TableGatewayInterface $tableGateway
      */
-    public function __construct(TableGatewayInterface $tableGateway)
-    {
+    public function __construct(
+        TableGatewayInterface $tableGateway
+    ) {
         $this->tableGateway = $tableGateway;
     }
 
@@ -34,12 +36,24 @@ class LocationTable
 
     /**
      * Get as an array for when we want to return as JSON
+     * @param $imageManager \Location\Service\ImageManager
      * @return array
      */
-    public function fetchAllToArray()
+    public function fetchAllToArray($imageManager)
     {
+        $return = array();
         $aData = $this->fetchAll()->toArray();
-        return $aData;
+
+        foreach ($aData as $data) {
+            $fileData = json_decode($data['file']);
+            if ($fileData->name && !is_null($fileData->name)) {
+                unset($data['file']);
+                $data['file'] = $fileData->name;
+            }
+            $return[] = $data;
+        }
+
+        return $return;
     }
 
     /**
@@ -70,7 +84,8 @@ class LocationTable
             'title'  => $location->title,
             'long' => $location->long,
             'lat' => $location->lat,
-            'type' => $location->type
+            'type' => $location->type,
+            'file' => json_encode($location->file)
         ];
 
         $id = (int) $location->id;
