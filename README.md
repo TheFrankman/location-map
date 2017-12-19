@@ -1,4 +1,4 @@
-# ZendSkeletonApplication
+# Map of Me
 
 ## Introduction
 This is an application created using the Zend Framework MVC layer and module systems.
@@ -77,3 +77,13 @@ server {
     }
 }
 ```
+## TODOS
+
+- Repositories and Interfaces
+- Configurable Map Center
+- Allow creation of accounts and views for each account
+- Sharing functionality
+- Tidy up call to geo location api
+- Add more information to info popup (allowing custom fields, tags)
+- Add your own google api key
+- Much more...
