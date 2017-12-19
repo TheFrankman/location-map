@@ -7,13 +7,13 @@ It allows you to add a list of locations you have lived, visited and want to vis
 A demo is available at locations.frankclark.xyz as setting this up will likely be time consuming.
 
 ## Local Setup
-I created this project using MAMP with apache but you either of the below configurations should work for you.
-Once the localhost is configured you need to create a database called locations.
+I created this project using MAMP with apache but either of the below configurations should work for you.
+Once the localhost is configured you need to create a database called `locations`.
 
 Provided you are using MYSQL I've provided a sample database of the places I have lived, visited and want to visit that
 can be imported. This is located in the project root `locations.sql`
 
-When the database is created you will need to do two things : 
+When the database is created you will need to : 
 
 Rename the file located at `project_root/config/autoload/local.example.php` to `local.php` within the same directory
 updating the username and password to your own.
