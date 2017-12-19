@@ -69,19 +69,7 @@ class LocationController extends AbstractActionController
         $data = $request->getPost();
         $data = $data->toArray();
 
-        // Get the LatLong from the location title
-        $address = $request->getPost('title');
-        $sanitisedAddress = str_replace(' ', '+', $address);
-        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address=' . $sanitisedAddress . '&sensor=false');
-        $output = json_decode($geocode);
-        $title = $output->results[0]->formatted_address;
-        $latitude = $output->results[0]->geometry->location->lat;
-        $longitude = $output->results[0]->geometry->location->lng;
-
-        // Use the name provided from google so that it's tidy
-        $data['title'] = $title;
-        $data['long'] = $longitude;
-        $data['lat'] = $latitude;
+        $data = $this->addLatLong($data);
 
         $form->setData($data);
 
@@ -101,6 +89,7 @@ class LocationController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
 
+
         if (0 === $id) {
             return $this->redirect()->toRoute('location', ['action' => 'locations']);
         }
@@ -112,8 +101,9 @@ class LocationController extends AbstractActionController
         }
 
         $form = new LocationForm();
+
         $form->bind($location);
-        $form->get('submit')->setAttribute('value', 'Edit');
+        $form->get('submit')->setAttribute('value', 'Update Location');
 
         $request = $this->getRequest();
         $viewData = ['id' => $id, 'form' => $form];
@@ -123,7 +113,12 @@ class LocationController extends AbstractActionController
         }
 
         $form->setInputFilter($location->getInputFilter());
-        $form->setData($request->getPost());
+
+        $data = $request->getPost()->toArray();
+
+        $data = $this->addLatLong($data);
+
+        $form->setData($data);
 
         if (! $form->isValid()) {
             return $viewData;
@@ -162,5 +157,23 @@ class LocationController extends AbstractActionController
             'id'    => $id,
             'location' => $this->table->getLocation($id),
         ];
+    }
+
+    public function addLatLong($data)
+    {
+        // Get the LatLong from the location title
+        $address = $this->getRequest()->getPost('title');
+        $sanitisedAddress = str_replace(' ', '+', $address);
+        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address=' . $sanitisedAddress . '&sensor=false');
+        $output = json_decode($geocode);
+        $title = $output->results[0]->formatted_address;
+        $latitude = $output->results[0]->geometry->location->lat;
+        $longitude = $output->results[0]->geometry->location->lng;
+
+        // Use the name provided from google so that it's tidy
+        $data['title'] = $title;
+        $data['long'] = $longitude;
+        $data['lat'] = $latitude;
+        return $data;
     }
 }

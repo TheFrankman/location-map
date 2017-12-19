@@ -24,7 +24,7 @@ class LocationForm extends Form
             'name' => 'title',
             'type' => 'text',
             'options' => [
-                'label' => 'Title',
+                'label' => 'Location Name',
             ],
         ]);
         $this->add([
@@ -33,19 +33,25 @@ class LocationForm extends Form
             'options' => [
                 'label' => 'Longitude',
             ],
+            'attributes' => array(
+                'disabled' => true
+            ),
         ]);
         $this->add([
             'name' => 'lat',
             'type' => 'text',
             'options' => [
-                'label' => 'latitude',
+                'label' => 'Latitude',
             ],
+            'attributes' => array(
+                'disabled' => true
+            ),
         ]);
         $this->add([
             'name' => 'type',
             'type' => 'text',
             'options' => [
-                'label' => 'Type',
+                'label' => 'Location Type',
             ],
         ]);
 

@@ -88,7 +88,7 @@ class Location
 
         $inputFilter->add([
             'name' => 'long',
-            'required' => true,
+            'required' => false,
             'filters' => [
                 ['name' => StripTags::class],
                 ['name' => StringTrim::class],
@@ -107,7 +107,7 @@ class Location
 
         $inputFilter->add([
             'name' => 'lat',
-            'required' => true,
+            'required' => false,
             'filters' => [
                 ['name' => StripTags::class],
                 ['name' => StringTrim::class],
